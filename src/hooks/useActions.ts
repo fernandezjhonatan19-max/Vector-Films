@@ -7,6 +7,7 @@ export function useActions() {
     const [missions, setMissions] = useState<Mission[]>([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [recentActions, setRecentActions] = useState<any[]>([]);
 
     useEffect(() => {
         async function fetchCatalogs() {
@@ -35,19 +36,25 @@ export function useActions() {
                 setLoading(false);
             }
         }
+        async function fetchRecentActions() {
+            const { data } = await supabase
+                .from('actions_ledger')
+                .select('*, profiles:target_user_id(full_name)')
+                .order('created_at', { ascending: false })
+                .limit(10);
+            setRecentActions(data || []);
+        }
+
         fetchCatalogs();
+        fetchRecentActions();
     }, []);
 
     const registerAction = async (targetUserId: string, mission: Mission, note?: string) => {
         setSubmitting(true);
         try {
             const currentMonth = new Date().toISOString().slice(0, 7);
-            const { data: { user } } = await supabase.auth.getUser();
-            const createdBy = user?.id;
-
-            if (!createdBy && import.meta.env.VITE_SUPABASE_URL) {
-                throw new Error("Must be logged in");
-            }
+            const { data: authData } = await supabase.auth.getUser();
+            const createdBy = authData.user?.id;
 
             const { error } = await supabase.from('actions_ledger').insert({
                 target_user_id: targetUserId,
@@ -60,6 +67,15 @@ export function useActions() {
             });
 
             if (error) throw error;
+
+            // Refresh recent actions
+            const { data: newRecent } = await supabase
+                .from('actions_ledger')
+                .select('*, profiles:target_user_id(full_name)')
+                .order('created_at', { ascending: false })
+                .limit(10);
+            setRecentActions(newRecent || []);
+
             return true;
         } catch (err) {
             console.error("Error registering action", err);
@@ -69,5 +85,18 @@ export function useActions() {
         }
     };
 
-    return { agents, missions, loading, submitting, registerAction };
+    const deleteAction = async (actionId: string) => {
+        try {
+            const { error } = await supabase.from('actions_ledger').delete().eq('id', actionId);
+            if (error) throw error;
+
+            setRecentActions(prev => prev.filter(a => a.id !== actionId));
+            return true;
+        } catch (err) {
+            console.error("Error deleting action", err);
+            return false;
+        }
+    };
+
+    return { agents, missions, loading, submitting, recentActions, registerAction, deleteAction };
 }

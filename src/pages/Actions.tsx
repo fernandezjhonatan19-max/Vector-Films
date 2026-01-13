@@ -7,7 +7,7 @@ import { cn } from '../lib/utils';
 import { Check, User, Search } from 'lucide-react';
 
 export function Actions() {
-    const { agents, missions, submitting, registerAction } = useActions();
+    const { agents, missions, submitting, recentActions, registerAction, deleteAction } = useActions();
     const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
     const [selectedMissionId, setSelectedMissionId] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -20,11 +20,17 @@ export function Actions() {
 
         const success = await registerAction(selectedAgentId, mission);
         if (success) {
-            // Reset or Toast
             setSelectedMissionId(null);
             setSelectedAgentId(null);
-            alert("¡Acción registrada correctamente!");
+            // We don't need alert if it's appearing in the list below, or maybe keep it
+        } else {
+            alert("Error al registrar acción. Verifica tu conexión.");
         }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("¿Eliminar este registro de puntos?")) return;
+        await deleteAction(id);
     };
 
     const filteredMissions = missions.filter(m => {
@@ -145,6 +151,53 @@ export function Actions() {
                     </div>
                 </section>
             )}
+
+            {/* Step 3: Recent History & Deletion */}
+            <section className="space-y-4 pt-4 border-t border-white/5">
+                <h2 className="text-lg font-semibold text-white/80 uppercase tracking-wider text-xs flex items-center gap-2">
+                    Historial Reciente (Correcciones)
+                </h2>
+                <div className="bg-surface border border-white/5 rounded-2xl overflow-hidden">
+                    <table className="w-full text-sm">
+                        <thead>
+                            <tr className="border-b border-white/5 bg-white/5">
+                                <th className="text-left py-3 px-4 font-medium text-muted">Agente</th>
+                                <th className="text-left py-3 px-4 font-medium text-muted">Misión</th>
+                                <th className="text-center py-3 px-4 font-medium text-muted">Puntos</th>
+                                <th className="text-right py-3 px-4 font-medium text-muted">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                            {recentActions.map(action => (
+                                <tr key={action.id} className="hover:bg-white/5">
+                                    <td className="py-3 px-4 text-white font-medium">{action.profiles?.full_name}</td>
+                                    <td className="py-3 px-4 text-muted">{action.mission_title_snapshot}</td>
+                                    <td className="py-3 px-4 text-center">
+                                        <Badge variant={action.points >= 0 ? 'success' : 'danger'}>
+                                            {action.points > 0 ? '+' : ''}{action.points}
+                                        </Badge>
+                                    </td>
+                                    <td className="py-3 px-4 text-right">
+                                        <button
+                                            onClick={() => handleDelete(action.id)}
+                                            className="text-red-400 hover:text-red-300 text-xs font-semibold px-2 py-1 rounded hover:bg-red-400/10 transition-colors"
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {recentActions.length === 0 && (
+                                <tr>
+                                    <td colSpan={4} className="py-10 text-center text-muted italic">
+                                        No hay acciones recientes.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
             {/* Action Bar */}
             <div className="fixed bottom-0 left-0 md:left-64 right-0 p-6 bg-surface/80 backdrop-blur-md border-t border-white/10 flex justify-end items-center gap-4 z-50">
