@@ -9,7 +9,7 @@ import { Plus, Trash2, Wand2, Target } from 'lucide-react';
 
 export function Missions() {
     const [missions, setMissions] = useState<Mission[]>([]);
-    const [newMission, setNewMission] = useState({ title: '', points: 5, type: 'positive' as const, target_title: '' });
+    const [newMission, setNewMission] = useState({ title: '', points: 5, type: 'positive' as 'positive' | 'negative', target_title: '' });
 
     const fetchMissions = async () => {
         if (!import.meta.env.VITE_SUPABASE_URL) {
