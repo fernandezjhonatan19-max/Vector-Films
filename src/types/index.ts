@@ -19,6 +19,7 @@ export interface Mission {
     title: string;
     points: number;
     type: MissionType;
+    target_title: string | null;
     is_active: boolean;
     created_at: string;
 }

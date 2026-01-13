@@ -9,14 +9,14 @@ import { Plus, Trash2, Wand2, Target } from 'lucide-react';
 
 export function Missions() {
     const [missions, setMissions] = useState<Mission[]>([]);
-    const [newMission, setNewMission] = useState({ title: '', points: 5, type: 'positive' as const });
+    const [newMission, setNewMission] = useState({ title: '', points: 5, type: 'positive' as const, target_title: '' });
 
     const fetchMissions = async () => {
         if (!import.meta.env.VITE_SUPABASE_URL) {
             // Mock
             setMissions([
-                { id: 'm1', title: 'Excelente Video', points: 10, type: 'positive', is_active: true, created_at: '' },
-                { id: 'm2', title: 'Retraso Grave', points: -10, type: 'negative', is_active: true, created_at: '' }
+                { id: 'm1', title: 'Excelente Video', points: 10, type: 'positive', target_title: null, is_active: true, created_at: '' },
+                { id: 'm2', title: 'Retraso Grave', points: -10, type: 'negative', target_title: null, is_active: true, created_at: '' }
             ]);
             return;
         }
@@ -103,6 +103,20 @@ export function Missions() {
                             <option value="negative">Penalización</option>
                         </select>
                     </div>
+                    <div className="md:col-span-2 space-y-2">
+                        <label className="text-xs text-muted">Cargo</label>
+                        <select
+                            className="flex h-10 w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-text focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            value={newMission.target_title}
+                            onChange={e => setNewMission({ ...newMission, target_title: e.target.value })}
+                        >
+                            <option value="">General</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Community">Community Manager</option>
+                            <option value="Diseñador">Diseñador</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                    </div>
                     <div className="md:col-span-2">
                         <Button className="w-full" onClick={handleCreate}>Guardar</Button>
                     </div>
@@ -119,7 +133,14 @@ export function Missions() {
                             </div>
                             <div>
                                 <h4 className="font-medium text-white">{mission.title}</h4>
-                                <span className="text-xs text-muted">Creada el {new Date().toLocaleDateString()}</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs text-muted">Creada el {new Date().toLocaleDateString()}</span>
+                                    {mission.target_title && (
+                                        <Badge variant="outline" className="text-[10px] h-4 py-0 px-1 border-primary/30 text-primary/80">
+                                            {mission.target_title}
+                                        </Badge>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-6">

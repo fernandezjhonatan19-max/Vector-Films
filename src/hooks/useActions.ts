@@ -28,8 +28,8 @@ export function useActions() {
                 if (!import.meta.env.VITE_SUPABASE_URL) {
                     setAgents([{ id: '1', full_name: 'Andrea', role: 'member', title: 'Editor', avatar_url: null, is_active: true, created_at: '' }]);
                     setMissions([
-                        { id: 'm1', title: 'Excelente Video', points: 10, type: 'positive', is_active: true, created_at: '' },
-                        { id: 'm2', title: 'Retraso Grave', points: -10, type: 'negative', is_active: true, created_at: '' }
+                        { id: 'm1', title: 'Excelente Video', points: 10, type: 'positive', target_title: null, is_active: true, created_at: '' },
+                        { id: 'm2', title: 'Retraso Grave', points: -10, type: 'negative', target_title: null, is_active: true, created_at: '' }
                     ]);
                 }
             } finally {
