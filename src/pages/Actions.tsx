@@ -36,7 +36,12 @@ export function Actions() {
     const filteredMissions = missions.filter(m => {
         const matchesSearch = m.title.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = filterType === 'all' || m.type === filterType;
-        return matchesSearch && matchesType;
+
+        // Filter by agent role if an agent is selected
+        const selectedAgent = agents.find(a => a.id === selectedAgentId);
+        const matchesRole = !selectedAgentId || !m.target_title || m.target_title === selectedAgent?.title;
+
+        return matchesSearch && matchesType && matchesRole;
     });
 
     return (

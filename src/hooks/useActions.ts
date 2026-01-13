@@ -15,7 +15,7 @@ export function useActions() {
                 setLoading(true);
                 const [profilesRes, missionsRes] = await Promise.all([
                     supabase.from('profiles').select('*').eq('is_active', true),
-                    supabase.from('missions').select('*').eq('is_active', true).order('type', { ascending: false })
+                    supabase.from('missions').select('*, target_title').eq('is_active', true).order('type', { ascending: false })
                 ]);
 
                 if (profilesRes.error) throw profilesRes.error;

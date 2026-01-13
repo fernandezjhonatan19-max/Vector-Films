@@ -32,7 +32,8 @@ export function Missions() {
             const { error } = await supabase.from('missions').insert({
                 title: newMission.title,
                 points: Number(newMission.points),
-                type: newMission.type
+                type: newMission.type,
+                target_title: newMission.target_title || null
             });
             if (error) {
                 alert("Error al guardar misión: " + error.message);
@@ -43,7 +44,7 @@ export function Missions() {
             alert("Demo Mode: Mission Created locally (refresh will reset)");
             setMissions([...missions, { ...newMission, id: Math.random().toString(), is_active: true, created_at: '' }]);
         }
-        setNewMission({ title: '', points: 5, type: 'positive' });
+        setNewMission({ title: '', points: 5, type: 'positive', target_title: '' });
     };
 
     const handleDelete = async (id: string) => {
