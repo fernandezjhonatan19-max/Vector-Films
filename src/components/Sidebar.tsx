@@ -3,8 +3,7 @@ import {
     LayoutDashboard,
     Activity,
     Users,
-    Target,
-    Settings
+    Target
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -13,7 +12,6 @@ const navItems = [
     { to: '/acciones', label: 'Acciones', icon: Activity },
     { to: '/equipo', label: 'Equipo', icon: Users },
     { to: '/misiones', label: 'Misiones', icon: Target },
-    { to: '/ajustes', label: 'Ajustes', icon: Settings },
 ];
 
 export function Sidebar() {
