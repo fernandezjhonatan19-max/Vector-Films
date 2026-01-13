@@ -1,5 +1,4 @@
 import { Trophy, TrendingUp, DollarSign } from 'lucide-react';
-import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { useDashboard } from '../hooks/useDashboard';
 import { PerformanceChart } from '../components/dashboard/PerformanceChart';
@@ -9,18 +8,6 @@ import { formatCurrency, cn } from '../lib/utils';
 export function Dashboard() {
     const { agents, recentActivity, stats, loading } = useDashboard();
     const VALOR_PUNTO = 1000;
-
-    const QUOTES = [
-        { q: "La creatividad es la inteligencia divirtiéndose.", a: "Albert Einstein" },
-        { q: "El único modo de hacer un gran trabajo es amar lo que haces.", a: "Steve Jobs" },
-        { q: "La excelencia no es un acto, es un hábito.", a: "Aristóteles" },
-        { q: "Si puedes soñarlo, puedes hacerlo.", a: "Walt Disney" },
-        { q: "El éxito es ir de fracaso en fracaso sin perder el entusiasmo.", a: "Winston Churchill" },
-        { q: "No cuentes los días, haz que los días cuenten.", a: "Muhammad Ali" },
-        { q: "La mejor forma de predecir el futuro es crearlo.", a: "Peter Drucker" }
-    ];
-
-    const { q: quote, a: author } = useMemo(() => QUOTES[Math.floor(Math.random() * QUOTES.length)], []);
 
     // Merge stats into agents
     const agentsWithPoints = agents.map(agent => ({
@@ -48,19 +35,6 @@ export function Dashboard() {
                     {new Date().toLocaleDateString('es-CO', { month: 'long', year: 'numeric' })}
                 </div>
             </div>
-
-            {/* Quote Section */}
-            <Card className="bg-gradient-to-br from-surface to-surface-2 relative overflow-hidden group transition-colors">
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <span className="text-9xl font-serif text-primary">"</span>
-                </div>
-                <CardContent className="p-10 text-center relative z-10">
-                    <p className="text-2xl font-light italic text-white/90 mb-4 max-w-3xl mx-auto leading-relaxed">
-                        "{quote}"
-                    </p>
-                    <p className="text-xs text-primary font-bold tracking-[0.2em] uppercase">— {author}</p>
-                </CardContent>
-            </Card>
 
             {/* Agents Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -130,3 +104,4 @@ export function Dashboard() {
         </div>
     );
 }
+

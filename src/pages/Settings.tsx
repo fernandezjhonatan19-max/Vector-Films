@@ -29,16 +29,6 @@ export function Settings() {
                         </div>
                     </section>
 
-                    <section className="space-y-4">
-                        <h3 className="text-lg font-semibold text-white border-b border-white/5 pb-2">Apariencia</h3>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-muted">Cita del Dashboard</label>
-                            <textarea
-                                className="flex w-full rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[100px]"
-                                defaultValue="La creatividad es la inteligencia divirtiéndose."
-                            />
-                        </div>
-                    </section>
 
                     <section className="space-y-4">
                         <div className="flex items-center justify-between p-4 bg-surface-2 rounded-lg border border-white/5">
