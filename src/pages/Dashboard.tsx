@@ -1,15 +1,28 @@
-import { Trophy, TrendingUp, DollarSign } from 'lucide-react';
+import { Trophy, TrendingUp, DollarSign, Quote } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { useDashboard } from '../hooks/useDashboard';
 import { PerformanceChart } from '../components/dashboard/PerformanceChart';
 import { ActivityLog } from '../components/dashboard/ActivityLog';
 import { formatCurrency, cn } from '../lib/utils';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export function Dashboard() {
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
     const { agents, recentActivity, stats, loading } = useDashboard(selectedMonth);
     const VALOR_PUNTO = 1000;
+
+    const quotes = useMemo(() => [
+        "La creatividad es la inteligencia divirtiéndose. - Albert Einstein",
+        "El trabajo en equipo divide el trabajo y multiplica los resultados.",
+        "El crecimiento personal no es algo que sucede, es algo que se busca.",
+        "La única forma de hacer un gran trabajo es amar lo que haces. - Steve Jobs",
+        "La innovación distingue a los líderes de los seguidores.",
+        "El talento gana partidos, pero el trabajo en equipo gana campeonatos. - Michael Jordan",
+        "Sé el cambio que quieres ver en el mundo.",
+        "La creatividad requiere el coraje de dejar ir las certezas. - Erich Fromm"
+    ], []);
+
+    const randomQuote = useMemo(() => quotes[Math.floor(Math.random() * quotes.length)], [quotes]);
 
     // Merge stats into agents
     const agentsWithPoints = agents.map(agent => ({
@@ -40,6 +53,24 @@ export function Dashboard() {
                         onChange={(e) => setSelectedMonth(e.target.value)}
                         className="bg-surface-2 px-4 py-2 rounded-full border border-border text-primary font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
                     />
+                </div>
+            </div>
+
+            {/* Motivational Quote Section */}
+            <div className="bg-gradient-to-r from-primary/10 via-surface-2 to-transparent p-6 rounded-2xl border border-primary/10 mb-8 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <Quote className="h-20 w-20 text-primary" />
+                </div>
+                <div className="flex items-start gap-4">
+                    <div className="bg-primary/20 p-2 rounded-lg">
+                        <Quote className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                        <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-1">Inspiración del Día</h4>
+                        <p className="text-lg text-white font-medium italic leading-relaxed">
+                            "{randomQuote}"
+                        </p>
+                    </div>
                 </div>
             </div>
 
