@@ -63,12 +63,12 @@ export function Missions() {
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight">Control de Misiones</h1>
-                    <p className="text-muted mt-1">Configura las reglas del juego y puntajes.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Control de Misiones</h1>
+                    <p className="text-muted text-sm mt-1">Configura las reglas del juego y puntajes.</p>
                 </div>
-                <Button variant="secondary" className="gap-2 text-primary border-primary/20 bg-primary/10 hover:bg-primary/20">
+                <Button variant="secondary" className="gap-2 text-primary border-primary/20 bg-primary/10 hover:bg-primary/20 w-full md:w-auto">
                     <Wand2 className="h-4 w-4" /> Asistente IA
                 </Button>
             </div>
