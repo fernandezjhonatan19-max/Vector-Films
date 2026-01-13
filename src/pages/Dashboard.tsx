@@ -4,9 +4,11 @@ import { useDashboard } from '../hooks/useDashboard';
 import { PerformanceChart } from '../components/dashboard/PerformanceChart';
 import { ActivityLog } from '../components/dashboard/ActivityLog';
 import { formatCurrency, cn } from '../lib/utils';
+import { useState } from 'react';
 
 export function Dashboard() {
-    const { agents, recentActivity, stats, loading } = useDashboard();
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+    const { agents, recentActivity, stats, loading } = useDashboard(selectedMonth);
     const VALOR_PUNTO = 1000;
 
     // Merge stats into agents
@@ -31,8 +33,13 @@ export function Dashboard() {
                     <h1 className="text-3xl font-bold text-white tracking-tight">Tablero de Control</h1>
                     <p className="text-muted text-sm mt-1">Resumen de rendimiento del equipo</p>
                 </div>
-                <div className="text-sm font-medium bg-surface-2 px-4 py-2 rounded-full border border-border text-primary/80">
-                    {new Date().toLocaleDateString('es-CO', { month: 'long', year: 'numeric' })}
+                <div className="flex items-center gap-3">
+                    <input
+                        type="month"
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(e.target.value)}
+                        className="bg-surface-2 px-4 py-2 rounded-full border border-border text-primary font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
+                    />
                 </div>
             </div>
 

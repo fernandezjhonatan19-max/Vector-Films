@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import type { Profile, ActionLedger } from '../types';
 
-export function useDashboard() {
+export function useDashboard(selectedMonth?: string) {
     const [agents, setAgents] = useState<Profile[]>([]);
     const [recentActivity, setRecentActivity] = useState<ActionLedger[]>([]);
     const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ export function useDashboard() {
                 if (activityError) throw activityError;
 
                 // 3. Fetch monthly stats
-                const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+                const currentMonth = selectedMonth || new Date().toISOString().slice(0, 7); // YYYY-MM
                 const { data: monthLedger, error: ledgerError } = await supabase
                     .from('actions_ledger')
                     .select('target_user_id, points')
@@ -75,7 +75,7 @@ export function useDashboard() {
         }
 
         fetchData();
-    }, []);
+    }, [selectedMonth]);
 
     return { agents, recentActivity, stats, loading };
 }

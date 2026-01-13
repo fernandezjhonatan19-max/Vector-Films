@@ -29,12 +29,16 @@ export function Missions() {
     const handleCreate = async () => {
         if (!newMission.title) return;
         if (import.meta.env.VITE_SUPABASE_URL) {
-            await supabase.from('missions').insert({
+            const { error } = await supabase.from('missions').insert({
                 title: newMission.title,
                 points: Number(newMission.points),
                 type: newMission.type
             });
-            fetchMissions();
+            if (error) {
+                alert("Error al guardar misión: " + error.message);
+            } else {
+                fetchMissions();
+            }
         } else {
             alert("Demo Mode: Mission Created locally (refresh will reset)");
             setMissions([...missions, { ...newMission, id: Math.random().toString(), is_active: true, created_at: '' }]);

@@ -3,8 +3,9 @@ create extension if not exists "pgcrypto";
 
 -- 1. Profiles Table (extends Auth)
 create table public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
+  id uuid primary key default gen_random_uuid(),
   full_name text,
+  email text unique,
   role text check (role in ('admin', 'member')) default 'member',
   title text default 'Team Member',
   avatar_url text,

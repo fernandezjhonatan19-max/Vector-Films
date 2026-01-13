@@ -77,10 +77,7 @@ export function Team() {
                 const { error } = await supabase.from('profiles').update(profileData).eq('id', editingMember.id);
                 if (error) throw error;
             } else {
-                const { error } = await supabase.from('profiles').insert([{
-                    id: crypto.randomUUID(),
-                    ...profileData
-                }]);
+                const { error } = await supabase.from('profiles').insert([profileData]);
                 if (error) throw error;
             }
             setIsModalOpen(false);
