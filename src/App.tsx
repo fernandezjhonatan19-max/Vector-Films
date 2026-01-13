@@ -4,7 +4,6 @@ import { Dashboard } from './pages/Dashboard';
 import { Actions } from './pages/Actions';
 import { Team } from './pages/Team';
 import { Missions } from './pages/Missions';
-import { History } from './pages/History';
 import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
 
@@ -27,7 +26,6 @@ function App() {
           <Route path="acciones" element={<Actions />} />
           <Route path="equipo" element={<Team />} />
           <Route path="misiones" element={<Missions />} />
-          <Route path="historial" element={<History />} />
           <Route path="ajustes" element={<Settings />} />
         </Route>
       </Routes>

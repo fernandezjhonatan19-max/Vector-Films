@@ -4,7 +4,6 @@ import {
     Activity,
     Users,
     Target,
-    History,
     Settings
 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -14,7 +13,6 @@ const navItems = [
     { to: '/acciones', label: 'Acciones', icon: Activity },
     { to: '/equipo', label: 'Equipo', icon: Users },
     { to: '/misiones', label: 'Misiones', icon: Target },
-    { to: '/historial', label: 'Historial', icon: History },
     { to: '/ajustes', label: 'Ajustes', icon: Settings },
 ];
 
