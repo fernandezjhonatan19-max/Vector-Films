@@ -29,9 +29,12 @@ export function Missions() {
     const handleCreate = async () => {
         if (!newMission.title) return;
         if (import.meta.env.VITE_SUPABASE_URL) {
+            const pointsValue = Number(newMission.points);
+            const finalPoints = newMission.type === 'negative' ? -Math.abs(pointsValue) : Math.abs(pointsValue);
+
             const { error } = await supabase.from('missions').insert({
                 title: newMission.title,
-                points: Number(newMission.points),
+                points: finalPoints,
                 type: newMission.type,
                 target_title: newMission.target_title || null
             });
