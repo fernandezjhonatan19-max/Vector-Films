@@ -140,8 +140,8 @@ export function Team() {
                                     )}
                                 </div>
                             </div>
-                            <div className="mt-14 mb-2 min-h-[60px]">
-                                <h3 className="text-lg font-bold text-white leading-tight break-words">{member.full_name}</h3>
+                            <div className="mt-16 mb-2 min-h-[70px]">
+                                <h3 className="text-lg font-bold text-white leading-tight break-words pr-2">{member.full_name}</h3>
                                 <p className="text-sm text-primary font-medium">{member.title || 'Sin cargo'}</p>
                             </div>
                             <div className="flex items-center gap-2 mb-6">
